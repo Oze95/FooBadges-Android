@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_checkIn"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@mipmap/checkin"
+        android:title="Check In"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_events"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@mipmap/eventicon"
+        android:title="Events"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_badges"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@mipmap/badgeicon"
+        android:title="Badges"
+        app:showAsAction="ifRoom" />
+</menu>
