@@ -147,8 +147,6 @@ public class EventListActivity extends AppCompatActivity {
                                     finish();
                                     break;
                                 }
-                            case R.id.action_events:
-                                break;
                             case R.id.action_badges:
                                 if (!session.isLoggedIn()) {
                                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);

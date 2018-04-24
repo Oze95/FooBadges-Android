@@ -109,7 +109,6 @@ public class BadgesActivity extends AppCompatActivity {
                                     break;
                                 } else {
                                     Intent i = new Intent(getApplicationContext(), CheckInActivity.class);
-                                    //i.putExtra("list", cache);
                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(i);
                                     finish();
@@ -117,12 +116,9 @@ public class BadgesActivity extends AppCompatActivity {
                                 }
                             case R.id.action_events:
                                 Intent k = new Intent(getApplicationContext(), EventListActivity.class);
-                                //      k.putExtra("list",cache);
                                 k.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(k);
                                 finish();
-                                break;
-                            case R.id.action_badges:
                                 break;
                         }
                         return true;

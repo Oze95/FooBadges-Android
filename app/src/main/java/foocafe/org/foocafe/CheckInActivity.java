@@ -143,8 +143,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.action_checkIn:
-                                break;
                             case R.id.action_events:
                                 Intent k = new Intent(getApplicationContext(), EventListActivity.class);
                                 k.putExtra("list", cache);
