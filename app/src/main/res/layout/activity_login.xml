@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="foocafe.org.foocafe.LoginActivity"
     android:weightSum="1"
-    android:focusableInTouchMode="true">
+    tools:context="foocafe.org.foocafe.LoginActivity">
 
     <!-- Login progress -->
 
@@ -17,16 +17,15 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:titleTextColor="@color/colorWhite"
-        app:titleTextAppearance="@style/Toolbar.TitleText">
-    </android.support.v7.widget.Toolbar>
+        app:titleTextAppearance="@style/Toolbar.TitleText"
+        app:titleTextColor="@color/colorWhite" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        app:srcCompat="@mipmap/foologo"
-        android:layout_below="@id/my_toolbar" />
+        android:layout_below="@id/my_toolbar"
+        app:srcCompat="@mipmap/foologo" />
 
     <TextView
         android:id="@+id/textView2"
@@ -35,23 +34,22 @@
         android:layout_below="@id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp"
-        android:text="Sign in to start collecting FooBadges!" />
+        android:text="@string/sign_in_collect_badges" />
 
     <Button
         android:id="@+id/email_sign_in_button"
         style="?android:textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_weight="0.78"
         android:background="@drawable/button_selector"
+        android:padding="5dp"
         android:text="@string/action_sign_in"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
-
+        android:textStyle="bold" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -62,7 +60,4 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/bottom_navigation_main" />
-
-
-
 </RelativeLayout>
