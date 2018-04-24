@@ -16,6 +16,7 @@
     <string name="no_events_today">No events today</string>
     <string name="no_events_in_near_future">No events in near future</string>
     <string name="sign_in_collect_badges">Sign in to start collecting FooBadges!</string>
+    <string name="my_badges">My Badges</string>
 
     <string-array name="chapters">
         <item>Malmö</item>

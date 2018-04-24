@@ -18,4 +18,3 @@ class Badge implements Serializable {
     @SerializedName("criteria")
     String criteria;
 }
-

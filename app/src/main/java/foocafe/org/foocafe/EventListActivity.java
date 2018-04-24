@@ -57,7 +57,7 @@ public class EventListActivity extends AppCompatActivity {
 
     Callback<EventList> eventsCallback = new Callback<EventList>() {
         @Override
-        public void onResponse(Call<EventList> call, Response<EventList> response) {
+        public void onResponse(@NonNull Call<EventList> call, @NonNull Response<EventList> response) {
             if (response.isSuccessful()) {
                 EventList eventList = response.body();
                 ArrayList<Event> filterlist = new ArrayList<>();
@@ -90,7 +90,7 @@ public class EventListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onFailure(Call<EventList> call, Throwable t) {
+        public void onFailure(@NonNull Call<EventList> call, Throwable t) {
             t.printStackTrace();
             EventList eventList = new EventList();
             eventList.events = DB.getListObject(cache, Event.class);
