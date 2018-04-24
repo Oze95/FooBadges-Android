@@ -2,7 +2,6 @@ package foocafe.org.foocafe;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -19,39 +18,23 @@ import foocafe.org.foocafe.entities.SignUpCredential;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static foocafe.org.foocafe.EventListActivity.PREFERENCES;
 
 public class EventDescriptionActivity extends AppCompatActivity {
 
-    private WebView w;
-    private BottomNavigationView bottomNavigationView;
     Session session;
-    private Toolbar tool;
-    private Button button;
-    private boolean signedUp;
-    private TextView t2;
-    private String desc, title, subtitle, location, date, time;
-    private android.support.v7.app.ActionBar ab = null;
-
-    private FooCafeAPI foocafeAPI;
+    private String desc, title, subtitle, date, time;
     private String cache;
-    private String cacheLocation;
-    private SharedPreferences preferences;
 
     Callback<SignUpCredential> SignUpCallback = new Callback<SignUpCredential>() {
         @Override
-        public void onResponse(Call<SignUpCredential> call, Response<SignUpCredential> response) {
+        public void onResponse(@NonNull Call<SignUpCredential> call, @NonNull Response<SignUpCredential> response) {
             if (response.isSuccessful()) {
-                signedUp = true;
                 Toast.makeText(getApplicationContext(), "Successful sign up", Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
-        public void onFailure(Call<SignUpCredential> call, Throwable t) {
+        public void onFailure(@NonNull Call<SignUpCredential> call, @NonNull Throwable t) {
             t.printStackTrace();
             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(EventDescriptionActivity.this).create();
             alertDialog.setTitle("Alert");
@@ -72,34 +55,31 @@ public class EventDescriptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_description);
 
         Bundle bundle = getIntent().getExtras();
-        desc = bundle.getString("desc");
-        title = bundle.getString("title");
-        subtitle = bundle.getString("subtitle");
-        date = bundle.getString("date");
-        time = bundle.getString("time");
-
-        tool = findViewById(R.id.my_toolbar);
+        if (bundle != null) {
+            desc = bundle.getString("desc");
+            title = bundle.getString("title");
+            subtitle = bundle.getString("subtitle");
+            date = bundle.getString("date");
+            time = bundle.getString("time");
+        }
+        Toolbar tool = findViewById(R.id.my_toolbar);
         setSupportActionBar(tool);
-        ab = getSupportActionBar();
-
-        preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
-        cacheLocation = preferences.getString("chapter", "Malmö");
 
         Intent inte = getIntent();
         cache = inte.getStringExtra("list");
         session = new Session(getApplicationContext());
 
-        w = findViewById(R.id.WebView);
-        button = findViewById(R.id.button);
-        t2 = findViewById(R.id.textView5);
-        t2.setText(subtitle + "\n" + title + "\n" + time + " " + date);
+        WebView w = findViewById(R.id.WebView);
+        Button button = findViewById(R.id.button);
+        TextView t2 = findViewById(R.id.textView5);
+        t2.setText(String.format("%s\n%s\n%s %s", subtitle, title, time, date));
 
         w.getSettings().setJavaScriptEnabled(true);
         String result = desc.replace("\n", "<br>");
         result = result.replace("\r", "<br>");
         w.loadDataWithBaseURL("http://www.foocafe.org", result, "text/html", "UTF-8", "about:blank");
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -155,61 +135,8 @@ public class EventDescriptionActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
                 i.putExtra("url", getIntent().getStringExtra("url"));
                 startActivity(i);
-
-              /*  if(!session.isLoggedIn()){
-                    Intent i = new Intent(getApplicationContext(),FooCafeLogin.class);
-                    startActivity(i);
-
-                } else {
-                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-                    alertDialogBuilder.setMessage("Do you want to sign up to this event?");
-                    alertDialogBuilder.setPositiveButton("yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    if(!signedUp) {
-                                        // Innan vi skickar en POST måste vi veta att personen är inloggad eller låta personen logga in först och sen skicka tillbaka till denna sida och signa up till ett event.
-                                        signUpCredential = new SignUpCredential(session.getUID(), title);
-                                        foocafeAPI.signUp(signUpCredential, location, title).enqueue(SignUpCallback);
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Again?", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.setCancelable(false);
-                    alertDialog.setCanceledOnTouchOutside(false);
-                    alertDialog.show();
-                }
-*/
             }
         });
-
-        switch (cacheLocation) {
-            case "Malmö":
-                location = "malmoe";
-                break;
-            case "Stockholm":
-                location = "stockholm";
-                break;
-            case "Copenhagen":
-                location = "copenhagen";
-                break;
-        }
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(FooCafeAPI.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        foocafeAPI = retrofit.create(FooCafeAPI.class);
     }
 
     @Override

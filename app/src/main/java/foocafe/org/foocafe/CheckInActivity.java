@@ -260,10 +260,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             Toast.makeText(getApplicationContext(), "Contact Foo café regarding beacon failure", Toast.LENGTH_SHORT).show();
             return false;
         }
-        //  TODO: Check signup - if not singup
-        //  TODO: Check for GPS - kollar gps koordinater
-        //  TODO: Check for beacon - kollar beacon i
-
         return false;
     }
 
@@ -281,9 +277,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
                     exit = false;
                 }
             }, 3 * 1000);
-
         }
-
     }
 
     @Override
@@ -292,7 +286,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         try {
             beaconManager.startRangingBeaconsInRegion(reg);
             Log.i(TAG, "BEACON SERVICE");
-        } catch (RemoteException e) {
+        } catch (RemoteException ignored) {
         }
     }
 
@@ -308,7 +302,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     }
 
     protected void startLocationUpdates() {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "startloc");
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
@@ -361,14 +354,12 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         try {
             beaconManager.startRangingBeaconsInRegion(reg);
             Log.i(TAG, "BEACON SERVICE");
-        } catch (RemoteException e) {
+        } catch (RemoteException ignored) {
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
@@ -377,21 +368,17 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-
                 Handler handlerClose = new Handler();
                 handlerClose.postDelayed(new Runnable() {
                     public void run() {
                         session.logoutUser();
-                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                         startActivity(i);
                         finish();
                         overridePendingTransition(0, 0);
                     }
                 }, 100);
-
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
