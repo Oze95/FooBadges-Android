@@ -1,34 +1,34 @@
-package foocafe.org.foocafe;
+package foocafe.org.foocafe.entities;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-class Event implements Serializable {
+public class Event implements Serializable {
     @SerializedName("title")
-    String title;
+    public String title;
 
     @SerializedName("subtitle")
-    String subtitle;
+    public String subtitle;
 
     @SerializedName("image")
-    String image;
+    public String image;
 
     @SerializedName("date")
-    String date;
+    public String date;
 
     @SerializedName("start")
-    String time;
+    public String time;
 
     @SerializedName("description")
-    String description;
+    public String description;
 
     @SerializedName("checkmark")
-    Boolean checkmark = false;
+    public Boolean checkmark = false;
 
     @SerializedName("id")
-    String event;
+    public String event;
 
     @SerializedName("url")
-    String url;
+    public String url;
 }

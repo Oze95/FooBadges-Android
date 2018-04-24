@@ -1,4 +1,4 @@
-package foocafe.org.foocafe;
+package foocafe.org.foocafe.entities;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import foocafe.org.foocafe.entities.Badge;
+
 class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
     private List<Badge> badges;
     private Activity badgeActivity;

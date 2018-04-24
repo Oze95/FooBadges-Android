@@ -47,6 +47,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import foocafe.org.foocafe.entities.CheckInCredential;
+import foocafe.org.foocafe.entities.Event;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

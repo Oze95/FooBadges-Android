@@ -40,6 +40,8 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import foocafe.org.foocafe.entities.Event;
+
 
 public class TinyDB {
 

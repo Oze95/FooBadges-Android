@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import foocafe.org.foocafe.entities.Event;
+import foocafe.org.foocafe.entities.EventList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

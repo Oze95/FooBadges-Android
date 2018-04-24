@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import foocafe.org.foocafe.entities.RegistrationCredential;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

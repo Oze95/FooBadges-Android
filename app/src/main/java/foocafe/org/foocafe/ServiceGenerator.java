@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import java.io.IOException;
 
+import foocafe.org.foocafe.entities.AccessToken;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

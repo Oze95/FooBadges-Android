@@ -1,4 +1,4 @@
-package foocafe.org.foocafe;
+package foocafe.org.foocafe.entities;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public class CheckInList {
     @SerializedName("check_ins")
-    ArrayList<CheckInCredential> checkIns;
+    public ArrayList<CheckInCredential> checkIns;
 }

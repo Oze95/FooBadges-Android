@@ -1,5 +1,12 @@
 package foocafe.org.foocafe;
 
+import foocafe.org.foocafe.entities.AccessToken;
+import foocafe.org.foocafe.entities.BadgeList;
+import foocafe.org.foocafe.entities.CheckInCredential;
+import foocafe.org.foocafe.entities.CheckInList;
+import foocafe.org.foocafe.entities.EventList;
+import foocafe.org.foocafe.entities.RegistrationCredential;
+import foocafe.org.foocafe.entities.SignUpCredential;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;

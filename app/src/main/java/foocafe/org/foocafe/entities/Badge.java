@@ -1,20 +1,20 @@
-package foocafe.org.foocafe;
+package foocafe.org.foocafe.entities;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-class Badge implements Serializable {
+public class Badge implements Serializable {
 
     @SerializedName("name")
-    String name;
+    public String name;
 
     @SerializedName("image")
-    String image;
+    public String image;
 
     @SerializedName("description")
-    String description;
+    public String description;
 
     @SerializedName("criteria")
-    String criteria;
+    public String criteria;
 }
