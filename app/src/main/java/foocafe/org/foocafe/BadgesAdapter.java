@@ -2,6 +2,7 @@ package foocafe.org.foocafe;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,15 +28,16 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
         this.badgeActivity = badgeActivity;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.badgecard, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         Log.i(TAG, "onBindViewHolder: ");
         Glide.with(badgeActivity).load("http://www.foocafe.org" + badges.get(position).image).into(holder.imageView);

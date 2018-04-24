@@ -37,7 +37,7 @@ public class BadgesActivity extends AppCompatActivity {
 
     Callback<BadgeList> badgesCallback = new Callback<BadgeList>() {
         @Override
-        public void onResponse(Call<BadgeList> call, Response<BadgeList> response) {
+        public void onResponse(@NonNull Call<BadgeList> call, @NonNull Response<BadgeList> response) {
             if (response.isSuccessful()) {
                 Log.i(TAG, "onResponse: ");
                 BadgeList badgeList = response.body();
@@ -47,7 +47,7 @@ public class BadgesActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onFailure(Call<BadgeList> call, Throwable t) {
+        public void onFailure(@NonNull Call<BadgeList> call, @NonNull Throwable t) {
             Log.i(TAG, "onFailure: ");
             t.printStackTrace();
 
@@ -56,7 +56,7 @@ public class BadgesActivity extends AppCompatActivity {
 
     Callback<BadgeList> loadMyBadgesCallback = new Callback<BadgeList>() {
         @Override
-        public void onResponse(Call<BadgeList> call, Response<BadgeList> response) {
+        public void onResponse(@NonNull Call<BadgeList> call, @NonNull Response<BadgeList> response) {
             if (response.isSuccessful()) {
                 Log.i(TAG, "onResponse: ");
                 BadgeList badgeList = response.body();
@@ -66,7 +66,7 @@ public class BadgesActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onFailure(Call<BadgeList> call, Throwable t) {
+        public void onFailure(@NonNull Call<BadgeList> call, @NonNull Throwable t) {
             Log.i(TAG, "onFailure: ");
             t.printStackTrace();
 

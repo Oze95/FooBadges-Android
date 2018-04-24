@@ -21,14 +21,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,19 +127,8 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
 
         if (list.size() == 0) {
             t.setText(getString(R.string.no_events_today));
-            recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        } else if (list.size() == 1) {
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(260, 360, 100, 100);
-            params.height = 750;
-            params.width = 550;
-            recyclerView.setLayoutParams(params);
-            recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
-        } else if (list.size() == 2) {
+        }
+        if (list.size() < 5) {
             recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         }
         adapter = new EventListAdapter(list, CheckInActivity.this);

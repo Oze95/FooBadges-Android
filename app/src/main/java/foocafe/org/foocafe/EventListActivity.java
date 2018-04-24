@@ -194,7 +194,7 @@ public class EventListActivity extends AppCompatActivity {
                         editor.putString("chapter", "Copenhagen");
                         break;
                 }
-                editor.commit();
+                editor.apply();
             }
 
             @Override
