@@ -37,14 +37,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private final String clientId = "285172c95c08767d1c4e4a6ace84a8daec545837aa13605ff159e3b387f40781";
-    private final String clientSecret = "17003db694f8dff5c54ba9ae091e2afd7a03616c3ae6ba1c6fc1b4a9801ab349";
-    private final String redirectUri = "your://redirecturi";
     private Session session;
     private boolean exit;
 
-    private String TAG = "LoginAct";
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -77,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         session = new Session(getApplicationContext());
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.getMenu().getItem(getIntent().getIntExtra("setCheckValue",1)).setChecked(true);
+        bottomNavigationView.getMenu().getItem(getIntent().getIntExtra("setCheckValue", 1)).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -108,11 +103,9 @@ public class LoginActivity extends AppCompatActivity {
                         Intent.ACTION_VIEW,
                         Uri.parse(ServiceGenerator.API_BASE_URL + "/oauth/authorize" + "?client_id=" + clientId + "&response_type=code"+ "&redirect_uri=" + redirectUri));
                 startActivity(intent);*/
-                Intent i = new Intent(getApplicationContext(),FooCafeLogin.class);
+                Intent i = new Intent(getApplicationContext(), FooCafeLogin.class);
                 startActivity(i);
                 finish();
-
-
             }
         });
 
@@ -129,9 +122,9 @@ public class LoginActivity extends AppCompatActivity {
         // the intent filter defined in AndroidManifest will handle the return from ACTION_VIEW intent
         Uri uri = getIntent().getData();
         if (uri != null && uri.toString().contains("?code=")) {
-            Toast.makeText(LoginActivity.this,"Welcome back",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Welcome back", Toast.LENGTH_LONG).show();
             Log.i("OAUTH", uri.toString());
-          //  session.createLogin();
+            //  session.createLogin();
             // use the parameter your API exposes for the code (mostly it's "code")
             String code = uri.getQueryParameter("code");
             if (code != null) {
@@ -140,10 +133,10 @@ public class LoginActivity extends AppCompatActivity {
             } else if (uri.getQueryParameter("error") != null) {
                 // show an error message here
             }
-            Intent i = new Intent(this,EventListActivity.class);
+            Intent i = new Intent(this, EventListActivity.class);
             startActivity(i);
             finish();
-            }
+        }
     }
 
     private void populateAutoComplete() {
@@ -153,9 +146,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean mayRequestPermissions() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
@@ -173,7 +163,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
     /**
      * Callback received when a permissions request has been completed.
@@ -203,6 +192,4 @@ public class LoginActivity extends AppCompatActivity {
             }, 2 * 1000);
         }
     }
-
-
 }

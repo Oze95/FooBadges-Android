@@ -11,7 +11,7 @@ public class RegistrationCredential {
     @SerializedName("password")
     String password;
 
-    public RegistrationCredential(String email, String password){
+    public RegistrationCredential(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -20,6 +20,8 @@ public class RegistrationCredential {
         return email;
     }
 
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
 }

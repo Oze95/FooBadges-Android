@@ -1,7 +1,5 @@
 package foocafe.org.foocafe;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +11,7 @@ import android.widget.Toast;
 public class SignUpActivity extends AppCompatActivity {
 
     private WebView web;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,12 +21,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         web = (WebView) findViewById(R.id.webView);
         web.getSettings().setJavaScriptEnabled(true);
-        web.loadUrl(eventUrl+ "/registrations/new");
-        web.setWebViewClient(new WebViewClient(){
+        web.loadUrl(eventUrl + "/registrations/new");
+        web.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                if(!url.equals(eventUrl+ "/registrations/new")){
+                if (!url.equals(eventUrl + "/registrations/new")) {
                     Toast.makeText(SignUpActivity.this, "Redirecting", Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -39,8 +38,5 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
         });
-
-
-
     }
 }

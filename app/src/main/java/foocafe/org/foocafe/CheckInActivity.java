@@ -1,4 +1,5 @@
 package foocafe.org.foocafe;
+
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
@@ -70,7 +72,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     private ArrayList<Event> list = new ArrayList<>();
     private String date;
     private boolean checkInSuccessful;
-    private String eventID;
     private Toolbar tool;
     private boolean exit;
     android.support.v7.app.ActionBar ab = null;
@@ -82,11 +83,11 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     private String cache;
     private SharedPreferences preferences;
 
-    private GridLayoutManager gridLayoutManager ;
+    private GridLayoutManager gridLayoutManager;
     private FooCafeAPI foocafeAPI;
     private String uniqueID;
     private EventListAdapter adapter;
-    private String beaconIdentifier ="0x03676f6f2e676c2f417131387a46";
+    private String beaconIdentifier = "0x03676f6f2e676c2f417131387a46";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +108,15 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
                 // Called when a new location is found by the network location provider.
                 Log.i(TAG, "LOCATION CHANGED");
             }
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-            public void onProviderEnabled(String provider) {}
-            public void onProviderDisabled(String provider) {}
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
         };
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
@@ -121,13 +128,13 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         t = (TextView) findViewById(R.id.textView);
         t.setText("Events today");
         db = new TinyDB(this);
-        list = db.getListObject(session.getUID()+cache,Event.class);
+        list = db.getListObject(session.getUID() + cache, Event.class);
 
         gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        if (list.size()==0) {
+        if (list.size() == 0) {
             t.setText("No events today");
             recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         } else if (list.size() == 1) {
@@ -135,9 +142,9 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(linearLayoutManager);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(260,360,100,100);
-            params.height=750;
-            params.width=550;
+            params.setMargins(260, 360, 100, 100);
+            params.height = 750;
+            params.width = 550;
             recyclerView.setLayoutParams(params);
             recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
@@ -160,13 +167,13 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
                                 break;
                             case R.id.action_events:
                                 Intent k = new Intent(getApplicationContext(), EventListActivity.class);
-                                k.putExtra("list",cache);
+                                k.putExtra("list", cache);
                                 k.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(k);
                                 finish();
                                 break;
                             case R.id.action_badges:
-                                Intent i = new Intent(getApplicationContext(),BadgesActivity.class);
+                                Intent i = new Intent(getApplicationContext(), BadgesActivity.class);
                                 startActivity(i);
                                 finish();
                                 break;
@@ -220,11 +227,12 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         session = new Session(getApplicationContext());
 
     }
-    public String getUIDcache(){
-        return session.getUID()+cache;
+
+    public String getUIDcache() {
+        return session.getUID() + cache;
     }
 
-    public boolean checkin(){
+    public boolean checkin() {
         startLocationUpdates();
         BluetoothAdapter blueToothEnabled = BluetoothAdapter.getDefaultAdapter();
 
@@ -234,7 +242,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         }
         loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        if (loc != null && loc.distanceTo(target) < 2000 && beacon ) {
+        if (loc != null && loc.distanceTo(target) < 2000 && beacon) {
 
             stopLocationUpdates();    // Turn off the updates after Checkin, else it will drain battery real quick ^^
 
@@ -245,7 +253,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             Log.i(TAG, String.valueOf(checkInCredential.getUserID()));
             Log.i(TAG, checkInCredential.getDeviceID());
             Log.i(TAG, checkInCredential.getTimestamp());
-           // Log.i(TAG, checkInCredential.getBeaconID());  // Will fix when we uses beacon
+            // Log.i(TAG, checkInCredential.getBeaconID());  // Will fix when we uses beacon
             Log.i(TAG, adapter.getEventID());
 
             AsyncCall task = new AsyncCall();           //does the Post to server
@@ -256,9 +264,9 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            beacon =false;
+            beacon = false;
 
-            if(checkInSuccessful){
+            if (checkInSuccessful) {
                 Toast.makeText(getApplicationContext(), "Check In Success", Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -266,13 +274,13 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         } else if (loc == null) {
             Toast.makeText(getApplicationContext(), "Please enable your WIFI/GPS", Toast.LENGTH_SHORT).show();
             return false;
-        }  else if (loc.distanceTo(target) > 2000){
+        } else if (loc.distanceTo(target) > 2000) {
             Toast.makeText(getApplicationContext(), "You are not at a Foo Café", Toast.LENGTH_SHORT).show();
             return false;
-        }   else if (!blueToothEnabled.isEnabled()) {
+        } else if (!blueToothEnabled.isEnabled()) {
             Toast.makeText(getApplicationContext(), "Please enable your Bluetooth", Toast.LENGTH_SHORT).show();
             return false;
-        }else if( !beacon||beaconID != null){
+        } else if (!beacon || beaconID != null) {
             Toast.makeText(getApplicationContext(), "Contact Foo café regarding beacon failure", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -303,7 +311,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         try {
             beaconManager.startRangingBeaconsInRegion(reg);
@@ -325,7 +333,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
 
     protected void startLocationUpdates() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "startloc");
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
@@ -335,9 +343,11 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     protected void stopLocationUpdates() {
         locationManager.removeUpdates(locationListener);
     }
+
     protected void onStart() {
         super.onStart();
     }
+
     protected void onDestroy() {
         super.onDestroy();
         beaconManager.unbind(this);
@@ -352,15 +362,15 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
                 Log.i(TAG, "Bluetooth");
                 if (beacons.size() > 0) {
                     Log.i(TAG, "Finns beacon");
-                    for(Beacon b : beacons){
+                    for (Beacon b : beacons) {
                         String url = UrlBeaconUrlCompressor.uncompress(b.getId1().toByteArray());
                         Log.i(TAG, url);
                         Log.i(TAG, b.toString());
                         Log.i(TAG, b.getId1().toString());
-                        beaconID=url;
+                        beaconID = url;
                         if (beaconIdentifier.equals(b.getId1().toString())) {
                             Log.i(TAG, "WE DONE");
-                            beaconID=url;
+                            beaconID = url;
                             beacon = true;
                             try {
                                 beaconManager.stopRangingBeaconsInRegion(reg);
@@ -379,6 +389,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         } catch (RemoteException e) {
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -386,24 +397,23 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.logout:
 
                 Handler handlerClose = new Handler();
                 handlerClose.postDelayed(new Runnable() {
                     public void run() {
                         session.logoutUser();
-                        Toast.makeText(getApplicationContext(),"Logged out", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                         startActivity(i);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
-                },100);
+                }, 100);
 
                 return true;
 
@@ -412,17 +422,17 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         }
     }
 
-    private class AsyncCall extends AsyncTask <Void,Void,Void>{
+    private class AsyncCall extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
 
             Call<CheckInCredential> sendPost = foocafeAPI.checkIn(checkInCredential, location, adapter.getEventID());
             try {
-                if(sendPost.execute().isSuccessful()) {
-                 checkInSuccessful = true;
-                } else{
-                    checkInSuccessful=false;
+                if (sendPost.execute().isSuccessful()) {
+                    checkInSuccessful = true;
+                } else {
+                    checkInSuccessful = false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -431,9 +441,9 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             return null;
         }
 
-        protected void onPostExecute(Void res){
+        protected void onPostExecute(Void res) {
 
-            if(!checkInSuccessful){
+            if (!checkInSuccessful) {
                 AlertDialog alertDialog = new AlertDialog.Builder(CheckInActivity.this).create();
                 alertDialog.setTitle("Alert");
                 alertDialog.setMessage("Failed to check in. Try again!");
@@ -446,6 +456,5 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
                 alertDialog.show();
             }
         }
-
     }
 }

@@ -49,7 +49,7 @@ public class FooCafeLogin extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        if(session.checkLogin()) {
+        if (session.checkLogin()) {
             finish();
         }
 
@@ -62,9 +62,9 @@ public class FooCafeLogin extends AppCompatActivity {
 
         WebView w = (WebView) findViewById(R.id.w2);
         w.getSettings().setJavaScriptEnabled(true);
-      //  w.loadUrl("http://www.foocafe.org");
-        w.loadUrl(ServiceGenerator.API_BASE_URL + "/oauth/authorize" + "?client_id=" + clientId + "&response_type=code"+ "&redirect_uri=" + redirectUri);
-        w.setWebViewClient(new WebViewClient(){
+        //  w.loadUrl("http://www.foocafe.org");
+        w.loadUrl(ServiceGenerator.API_BASE_URL + "/oauth/authorize" + "?client_id=" + clientId + "&response_type=code" + "&redirect_uri=" + redirectUri);
+        w.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -76,70 +76,57 @@ public class FooCafeLogin extends AppCompatActivity {
                     Uri uri = Uri.parse(url);
                     authCode = uri.getQueryParameter("code");
 
-                    Log.i(TAG+"access", authCode);
+                    Log.i(TAG + "access", authCode);
                     AsyncCall task = new AsyncCall();           //does the Post to server
                     try {
                         task.execute().get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
 
-
-                        session.createLogin(access.access_token,access.user_id);
-                        Toast.makeText(FooCafeLogin.this, session.getAccessToken(), Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), EventListActivity.class);
-                        startActivity(i);
-                        finish();
-
-
-                } else if (url.contains("access_denied")){
+                    session.createLogin(access.access_token, access.user_id);
+                    Toast.makeText(FooCafeLogin.this, session.getAccessToken(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(), EventListActivity.class);
+                    startActivity(i);
+                    finish();
+                } else if (url.contains("access_denied")) {
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     finish();
-                   // w.loadUrl("http://www.foocafe.org");
-
+                    // w.loadUrl("http://www.foocafe.org");
                 }
             }
         });
 
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[] {  Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION },
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     0);
         }
 
     }
 
-    private class AsyncCall extends AsyncTask<Void,Void,Void> {
+    private class AsyncCall extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-            Call<AccessToken> token = foocafeAPI.getAccessToken(authCode,"authorization_code",clientId,clientSecret,redirectUri);
-
+            Call<AccessToken> token = foocafeAPI.getAccessToken(authCode, "authorization_code", clientId, clientSecret, redirectUri);
 
             try {
                 access = token.execute().body();
                 Log.i(TAG + "access", access.access_token);
                 Log.i(TAG + "access", access.expires_in);
-                Log.i(TAG+ "access", Integer.toString(access.user_id));
-
+                Log.i(TAG + "access", Integer.toString(access.user_id));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
         }
 
-        protected void onPostExecute(Void res){
+        protected void onPostExecute(Void res) {
 
         }
-
     }
-
-
 }
-

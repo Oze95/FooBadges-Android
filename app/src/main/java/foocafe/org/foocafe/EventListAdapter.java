@@ -29,17 +29,14 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
     private TinyDB db;
     private String UIDcache;
     private String eventID;
-    private boolean loggedIn = false;
     private Session session;
 
-    private boolean check =false;
+    private boolean check = false;
 
     EventListAdapter(List<Event> events, Activity eventListActivity) {
         this.events = events;
         this.eventListActivity = eventListActivity;
         db = new TinyDB(eventListActivity);
-
-
     }
 
     @Override
@@ -70,36 +67,34 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
         }
         final String formattedDate = targetFormat.format(date);
 
-
         holder.title.setText(events.get(position).title);
         holder.subtitle.setText(events.get(position).subtitle);
-        holder.dateTime.setText(events.get(position).time +" " + formattedDate);
+        holder.dateTime.setText(events.get(position).time + " " + formattedDate);
         Glide.with(eventListActivity).load("http://www.foocafe.org" + events.get(position).image).into(holder.imageView);
 
-        if(events.get(position).checkmark){
+        if (events.get(position).checkmark) {
             holder.imageView2.setImageResource(R.mipmap.checkmark);
             check = true;
 
         }
-        if(eventListActivity instanceof EventListActivity) {
+        if (eventListActivity instanceof EventListActivity) {
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(view.getContext(), EventDescriptionActivity.class);
                     i.putExtra("desc", toSendDesc);
                     i.putExtra("date", formattedDate);
-                    i.putExtra("title",title);
-                    i.putExtra("subtitle",subTitle);
-                    i.putExtra("time",time);
-                    i.putExtra("url",url);
+                    i.putExtra("title", title);
+                    i.putExtra("subtitle", subTitle);
+                    i.putExtra("time", time);
+                    i.putExtra("url", url);
                     view.getContext().startActivity(i);
                     ((Activity) view.getContext()).finish();
 
 
-
                 }
             });
-        } else if(eventListActivity instanceof CheckInActivity){
+        } else if (eventListActivity instanceof CheckInActivity) {
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -107,76 +102,69 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
 
                     UIDcache = ((CheckInActivity) eventListActivity).getUIDcache();
 
-                        if(!events.get(pos).checkmark && !check ){
-                            check = true;                   // will act like a semafor and will also enable only one checkin
-                            eventID = events.get(pos).event;
-                            //ask user if they want to checkin
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-                            alertDialogBuilder.setMessage("Do you want to check in to this event");
-                            alertDialogBuilder.setPositiveButton("yes",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
+                    if (!events.get(pos).checkmark && !check) {
+                        check = true;                   // will act like a semafor and will also enable only one checkin
+                        eventID = events.get(pos).event;
+                        //ask user if they want to checkin
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                        alertDialogBuilder.setMessage("Do you want to check in to this event");
+                        alertDialogBuilder.setPositiveButton("yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
 
-                                            if(((CheckInActivity) eventListActivity).checkin()){
-                                                events.get(pos).checkmark=true;
-                                                holder.imageView2.setImageResource(R.mipmap.checkmark);
-                                                db.putListObject(UIDcache, (ArrayList<Event>) events);
-                                            } else{
-                                                check =false;
-                                            }
-                                        }
-                                    });
-
-                            alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int which) {
-                                    check = false;
-                                    return;
-                                }
-                            });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.setCancelable(false);
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
-
-                        } else if (events.get(pos).checkmark){
-
-                            // ask if uncheck
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-                            alertDialogBuilder.setMessage("Do you want to undo the check in for this event");
-                            alertDialogBuilder.setPositiveButton("yes",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            events.get(pos).checkmark=false;
-                                            check =false;
+                                        if (((CheckInActivity) eventListActivity).checkin()) {
+                                            events.get(pos).checkmark = true;
+                                            holder.imageView2.setImageResource(R.mipmap.checkmark);
                                             db.putListObject(UIDcache, (ArrayList<Event>) events);
-                                            holder.imageView2.setImageResource(0);
+                                        } else {
+                                            check = false;
                                         }
-                                    });
+                                    }
+                                });
 
-                            alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface dialog, int which) {
-                                    return;
-                                }
-                            });
+                            public void onClick(DialogInterface dialog, int which) {
+                                check = false;
+                            }
+                        });
 
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.setCancelable(false);
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
 
-                        }
+                    } else if (events.get(pos).checkmark) {
 
+                        // ask if uncheck
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                        alertDialogBuilder.setMessage("Do you want to undo the check in for this event");
+                        alertDialogBuilder.setPositiveButton("yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        events.get(pos).checkmark = false;
+                                        check = false;
+                                        db.putListObject(UIDcache, (ArrayList<Event>) events);
+                                        holder.imageView2.setImageResource(0);
+                                    }
+                                });
 
+                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                    }
                 }
             });
-
         }
-
     }
 
     @Override
@@ -184,11 +172,13 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
         return events.size();
     }
 
-    public String getEventID(){return eventID;}
+    public String getEventID() {
+        return eventID;
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView subtitle;
-        ImageView imageView,imageView2;
+        ImageView imageView, imageView2;
         TextView title;
         TextView dateTime;
         CardView cardView;

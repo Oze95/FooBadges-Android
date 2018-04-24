@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-public class Session
-{
+public class Session {
     static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
     static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
     static final String PREF_KEY_TWITTER_LOGIN = "isTwitterLoggedIn";
@@ -18,13 +17,13 @@ public class Session
     SharedPreferences.Editor e;
 
     // Constructor
-    public Session(Context context){
+    public Session(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("Pref", Context.MODE_PRIVATE);
         e = sharedPreferences.edit();
     }
 
-    public void createLoginSession(String token, String secret, String username){
+    public void createLoginSession(String token, String secret, String username) {
         // Storing login value as TRUE
 
         e.putString(PREF_KEY_OAUTH_TOKEN, token);
@@ -39,9 +38,9 @@ public class Session
         return sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
     }
 
-    public boolean checkLogin(){
+    public boolean checkLogin() {
         // Check login status
-        if(this.isTwitterLoggedInAlready()){
+        if (this.isTwitterLoggedInAlready()) {
             // user is not logged in redirect him to Login Activity
             Intent i = new Intent(context, EventListActivity.class);
             // Closing all the Activities
@@ -56,9 +55,11 @@ public class Session
             return true;
         }
         return false;
-    };
+    }
 
-    public void logoutUser(){
+    ;
+
+    public void logoutUser() {
         // Clearing all data from Shared Preferences
         e.clear();
         e.commit();
@@ -82,28 +83,28 @@ public class Session
     }
 
     public String checkChapter() {
-       return sharedPreferences.getString(LAST_CHAPTER,"malmoe");
+        return sharedPreferences.getString(LAST_CHAPTER, "malmoe");
     }
 
 
+    public void createLogin(String accesstoken, int user_id) {
 
-    public void createLogin(String accesstoken,int user_id){
-
-        e.putBoolean("isLoggedIn",true);
-        e.putString("accessToken",accesstoken);
-        e.putInt("user_id",user_id);
+        e.putBoolean("isLoggedIn", true);
+        e.putString("accessToken", accesstoken);
+        e.putInt("user_id", user_id);
         e.commit();
 
     }
 
-    public String getAccessToken(){
-        return sharedPreferences.getString("accessToken",null);
+    public String getAccessToken() {
+        return sharedPreferences.getString("accessToken", null);
     }
 
-    public int getUID(){
-        return sharedPreferences.getInt("user_id",0);
+    public int getUID() {
+        return sharedPreferences.getInt("user_id", 0);
     }
-    public boolean isLoggedIn(){
-        return sharedPreferences.getBoolean("isLoggedIn",false);
+
+    public boolean isLoggedIn() {
+        return sharedPreferences.getBoolean("isLoggedIn", false);
     }
 }

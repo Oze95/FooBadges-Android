@@ -16,9 +16,6 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,22 +24,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BadgesActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
     private boolean exit;
     private FooCafeAPI foocafeAPI;
     private RecyclerView recyclerView;
     private Switch aSwitch;
     private String TAG = "tag";
-    private final String clientId = "285172c95c08767d1c4e4a6ace84a8daec545837aa13605ff159e3b387f40781";
-    private final String clientSecret = "17003db694f8dff5c54ba9ae091e2afd7a03616c3ae6ba1c6fc1b4a9801ab349";
-    private final String redirectUri = "your://redirecturi";
-
 
     private Session session;
 
     android.support.v7.app.ActionBar ab = null;
-
-
 
     Callback<BadgeList> badgesCallback = new Callback<BadgeList>() {
         @Override
@@ -54,6 +44,7 @@ public class BadgesActivity extends AppCompatActivity {
 
             }
         }
+
         @Override
         public void onFailure(Call<BadgeList> call, Throwable t) {
             Log.i(TAG, "onFailure: ");
@@ -61,8 +52,6 @@ public class BadgesActivity extends AppCompatActivity {
 
         }
     };
-
-
 
     Callback<BadgeList> loadMyBadgesCallback = new Callback<BadgeList>() {
         @Override
@@ -74,6 +63,7 @@ public class BadgesActivity extends AppCompatActivity {
 
             }
         }
+
         @Override
         public void onFailure(Call<BadgeList> call, Throwable t) {
             Log.i(TAG, "onFailure: ");
@@ -81,8 +71,6 @@ public class BadgesActivity extends AppCompatActivity {
 
         }
     };
-
-
 
     @Override
     public void onPause() {
@@ -105,7 +93,7 @@ public class BadgesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(2).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -113,12 +101,12 @@ public class BadgesActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_checkIn:
-                                if(!session.isLoggedIn()){
-                                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                                if (!session.isLoggedIn()) {
+                                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(i);
                                     finish();
                                     break;
-                                }else {
+                                } else {
                                     Intent i = new Intent(getApplicationContext(), CheckInActivity.class);
                                     //i.putExtra("list", cache);
                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -128,7 +116,7 @@ public class BadgesActivity extends AppCompatActivity {
                                 }
                             case R.id.action_events:
                                 Intent k = new Intent(getApplicationContext(), EventListActivity.class);
-                          //      k.putExtra("list",cache);
+                                //      k.putExtra("list",cache);
                                 k.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(k);
                                 finish();
@@ -144,9 +132,9 @@ public class BadgesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(aSwitch.isChecked()){
-                   foocafeAPI.loadMyBadges(session.getUID()).enqueue(loadMyBadgesCallback);
-                }else{
+                if (aSwitch.isChecked()) {
+                    foocafeAPI.loadMyBadges(session.getUID()).enqueue(loadMyBadgesCallback);
+                } else {
                     foocafeAPI.loadBadges().enqueue(badgesCallback);
 
                 }
@@ -161,8 +149,8 @@ public class BadgesActivity extends AppCompatActivity {
         foocafeAPI.loadBadges().enqueue(badgesCallback);
 
 
-
     }
+
     public void onBackPressed() {
         if (exit) {
             finish();
@@ -186,24 +174,21 @@ public class BadgesActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.logout:
 
                 Handler handlerClose = new Handler();
                 handlerClose.postDelayed(new Runnable() {
                     public void run() {
-
                         session.logoutUser();
-                        Toast.makeText(getApplicationContext(),"Logged out", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                         startActivity(i);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
-                },100);
+                }, 100);
 
                 return true;
 

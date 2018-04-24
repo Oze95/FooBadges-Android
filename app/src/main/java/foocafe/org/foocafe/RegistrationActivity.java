@@ -51,6 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
             t.printStackTrace();
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
-          //  mPasswordView.setError("GG");
+            //  mPasswordView.setError("GG");
             focusView = mPasswordView;
             cancel = true;
         } else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -130,11 +131,9 @@ public class RegistrationActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-
             Log.i(TAG, "Email Valid");
             Log.i(TAG, "Password Valid");
             Log.i(TAG, "TODO check with database");
-
         }
     }
 
@@ -150,7 +149,5 @@ public class RegistrationActivity extends AppCompatActivity {
         return password.length() > 6;
         //   Matcher matcher = VALID_PASSWORD_REGEX.matcher(password);
         // return matcher.find();
-
-
     }
-    }
+}

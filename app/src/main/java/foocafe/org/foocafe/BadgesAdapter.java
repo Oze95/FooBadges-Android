@@ -8,29 +8,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-
-/**
- * Created by foocafe on 2017-05-05.
- */
-
 class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
-    private List <Badge> badges;
+    private List<Badge> badges;
     private Activity badgeActivity;
     private String TAG = "tag";
 
     BadgesAdapter(List<Badge> badges, Activity badgeActivity) {
-        this.badges= badges;
+        this.badges = badges;
         this.badgeActivity = badgeActivity;
-
     }
 
     @Override
@@ -52,14 +44,11 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
                 Dialog dialog = new Dialog(v.getContext());
 
                 dialog.setContentView(R.layout.badge_dialog);
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                TextView badgeName= (TextView) dialog.findViewById(R.id.badgeNameText);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                TextView badgeName = (TextView) dialog.findViewById(R.id.badgeNameText);
                 TextView desc = (TextView) dialog.findViewById(R.id.descriptionText);
                 TextView criteria = (TextView) dialog.findViewById(R.id.criteriaText);
-
                 ImageView image = (ImageView) dialog.findViewById(R.id.imageView);
-
-
 
                 badgeName.setText(badges.get(position).name);
                 desc.setText(badges.get(position).description);
@@ -67,7 +56,6 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
                 Glide.with(badgeActivity).load("http://www.foocafe.org" + badges.get(position).image).into(image);
 
                 dialog.show();
-
             }
         });
 
@@ -87,7 +75,6 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
 
             imageView = (ImageView) itemView.findViewById(R.id.image);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
-
         }
     }
 }

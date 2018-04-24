@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import java.io.IOException;
 
-import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -64,7 +63,7 @@ public class ServiceGenerator {
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
 
-        if(accessToken != null) {
+        if (accessToken != null) {
             mContext = c;
             httpClient.addInterceptor(new Interceptor() {
                 @Override

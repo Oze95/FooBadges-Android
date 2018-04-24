@@ -27,13 +27,12 @@ public class EventDescriptionActivity extends AppCompatActivity {
 
     private WebView w;
     private BottomNavigationView bottomNavigationView;
-    private SignUpCredential signUpCredential;
     Session session;
     private Toolbar tool;
     private Button button;
     private boolean signedUp;
     private TextView t2;
-    private String desc,title,subtitle,location, date, time;
+    private String desc, title, subtitle, location, date, time;
     private android.support.v7.app.ActionBar ab = null;
 
     private FooCafeAPI foocafeAPI;
@@ -92,12 +91,12 @@ public class EventDescriptionActivity extends AppCompatActivity {
         w = (WebView) findViewById(R.id.WebView);
         button = (Button) findViewById(R.id.button);
         t2 = (TextView) findViewById(R.id.textView5);
-        t2.setText(subtitle +"\n" +title + "\n"+ time + " "+ date );
+        t2.setText(subtitle + "\n" + title + "\n" + time + " " + date);
 
         w.getSettings().setJavaScriptEnabled(true);
         String result = desc.replace("\n", "<br>");
         result = result.replace("\r", "<br>");
-        w.loadDataWithBaseURL("http://www.foocafe.org",result,"text/html","UTF-8","about:blank");
+        w.loadDataWithBaseURL("http://www.foocafe.org", result, "text/html", "UTF-8", "about:blank");
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
@@ -108,13 +107,13 @@ public class EventDescriptionActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_checkIn:
-                                if(!session.isLoggedIn()){
-                                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                                    i.putExtra("setCheckValue",0);
+                                if (!session.isLoggedIn()) {
+                                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                    i.putExtra("setCheckValue", 0);
                                     startActivity(i);
                                     finish();
                                     break;
-                                }else {
+                                } else {
                                     Intent i = new Intent(getApplicationContext(), CheckInActivity.class);
                                     i.putExtra("list", cache);
                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -129,13 +128,13 @@ public class EventDescriptionActivity extends AppCompatActivity {
                                 finish();
                                 break;
                             case R.id.action_badges:
-                                if(!session.isLoggedIn()){
-                                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                                    i.putExtra("setCheckValue",2);
+                                if (!session.isLoggedIn()) {
+                                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                    i.putExtra("setCheckValue", 2);
                                     startActivity(i);
                                     finish();
                                     break;
-                                }else {
+                                } else {
                                     Intent i = new Intent(getApplicationContext(), BadgesActivity.class);
                                     i.putExtra("list", cache);
                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -152,8 +151,8 @@ public class EventDescriptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getApplicationContext(),SignUpActivity.class);
-                i.putExtra("url",getIntent().getStringExtra("url"));
+                Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
+                i.putExtra("url", getIntent().getStringExtra("url"));
                 startActivity(i);
 
               /*  if(!session.isLoggedIn()){
@@ -221,12 +220,11 @@ public class EventDescriptionActivity extends AppCompatActivity {
         startActivity(i);
         finish();
 
-        }
+    }
 
     @Override
     public void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
     }
-
 }

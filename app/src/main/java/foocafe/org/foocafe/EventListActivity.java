@@ -39,7 +39,7 @@ import static android.Manifest.permission.INTERNET;
 import static foocafe.org.foocafe.R.id.textView3;
 
 public class EventListActivity extends AppCompatActivity {
-    public static final String PREFERENCES = "MyPrefs" ;
+    public static final String PREFERENCES = "MyPrefs";
 
     private FooCafeAPI foocafeAPI;
     private Session session;
@@ -62,31 +62,31 @@ public class EventListActivity extends AppCompatActivity {
                 EventList eventList = response.body();
                 ArrayList<Event> filterlist = new ArrayList<>();
                 ArrayList<Event> list = new ArrayList<>(0);
-                for(Event e : eventList.events){
-                    if(e.date.equals(date)){
+                for (Event e : eventList.events) {
+                    if (e.date.equals(date)) {
                         filterlist.add(e);
                     }
                 }
 
-                for(Event e : eventList.events){
+                for (Event e : eventList.events) {
                     list.add(e);
                 }
 
-                if(list.size() == 0) {
+                if (list.size() == 0) {
                     textView.setText("No events in near future");
                 } else {
                     textView.setText("Events");
                 }
 
-                if(list.size() <= 4) {
+                if (list.size() <= 4) {
                     recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
                 }
 
                 recyclerView.setAdapter(new EventListAdapter(eventList.events, EventListActivity.this));
                 DB.putListObject(cache, eventList.events);
-                list = DB.getListObject(session.getUID()+cache,Event.class);
-                if(DB.getListObject(session.getUID()+cache,Event.class) == null || filterlist.size()==0 || list == null || list.size() ==0 || !(list.get(0).date.equals(date))){
-                    DB.putListObject(session.getUID()+cache, filterlist);
+                list = DB.getListObject(session.getUID() + cache, Event.class);
+                if (DB.getListObject(session.getUID() + cache, Event.class) == null || filterlist.size() == 0 || list == null || list.size() == 0 || !(list.get(0).date.equals(date))) {
+                    DB.putListObject(session.getUID() + cache, filterlist);
                 }
             }
         }
@@ -95,7 +95,7 @@ public class EventListActivity extends AppCompatActivity {
         public void onFailure(Call<EventList> call, Throwable t) {
             t.printStackTrace();
             EventList eventList = new EventList();
-            eventList.events = DB.getListObject(cache,Event.class);
+            eventList.events = DB.getListObject(cache, Event.class);
             recyclerView.setAdapter(new EventListAdapter(eventList.events, EventListActivity.this));
         }
     };
@@ -119,7 +119,7 @@ public class EventListActivity extends AppCompatActivity {
         date = dateFormat.format(new Date());
         textView = (TextView) findViewById(textView3);
 
-        Log.i("SuperDate",date);
+        Log.i("SuperDate", date);
 
         preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
@@ -133,13 +133,13 @@ public class EventListActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_checkIn:
-                                if(!session.isLoggedIn()){
-                                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                                if (!session.isLoggedIn()) {
+                                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                     i.putExtra("setCheckValue", 0);
                                     startActivity(i);
                                     finish();
                                     break;
-                                }else {
+                                } else {
                                     Intent i = new Intent(getApplicationContext(), CheckInActivity.class);
                                     i.putExtra("list", cache);
                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -150,13 +150,13 @@ public class EventListActivity extends AppCompatActivity {
                             case R.id.action_events:
                                 break;
                             case R.id.action_badges:
-                                if(!session.isLoggedIn()){
-                                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                                    i.putExtra("setCheckValue",2);
+                                if (!session.isLoggedIn()) {
+                                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                    i.putExtra("setCheckValue", 2);
                                     startActivity(i);
                                     finish();
                                     break;
-                                }else {
+                                } else {
                                     Intent i = new Intent(getApplicationContext(), BadgesActivity.class);
                                     i.putExtra("list", cache);
                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -275,24 +275,23 @@ public class EventListActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.logout:
 
                 Handler handlerClose = new Handler();
                 handlerClose.postDelayed(new Runnable() {
                     public void run() {
                         session.logoutUser();
-                        Toast.makeText(getApplicationContext(),"Logged out", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                         startActivity(i);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
-                },100);
+                }, 100);
 
                 return true;
 
@@ -300,9 +299,10 @@ public class EventListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void getPermissions(){
-        if(checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{ ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, INTERNET, BLUETOOTH_ADMIN, BLUETOOTH}, 0);
+
+    private void getPermissions() {
+        if (checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, INTERNET, BLUETOOTH_ADMIN, BLUETOOTH}, 0);
         }
     }
 }
