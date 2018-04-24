@@ -1,25 +1,23 @@
 package foocafe.org.foocafe;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private WebView web;
-
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         final String eventUrl = getIntent().getStringExtra("url");
-        Log.i("WEBB", eventUrl);
 
-        web = findViewById(R.id.webView);
+        WebView web = findViewById(R.id.webView);
         web.getSettings().setJavaScriptEnabled(true);
         web.loadUrl(eventUrl + "/registrations/new");
         web.setWebViewClient(new WebViewClient() {

@@ -1,6 +1,7 @@
 package foocafe.org.foocafe;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -27,7 +28,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "REGISTER";
     private FooCafeAPI foocafeAPI;
-    private Toolbar tool;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private String email;
@@ -41,14 +41,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
     Callback<RegistrationCredential> RegistrationsCallback = new Callback<RegistrationCredential>() {
         @Override
-        public void onResponse(Call<RegistrationCredential> call, Response<RegistrationCredential> response) {
-            if (response.isSuccessful()) {
-                RegistrationCredential eventList = response.body();
-            }
+        public void onResponse(@NonNull Call<RegistrationCredential> call, @NonNull Response<RegistrationCredential> response) {
+
         }
 
         @Override
-        public void onFailure(Call<RegistrationCredential> call, Throwable t) {
+        public void onFailure(@NonNull Call<RegistrationCredential> call, @NonNull Throwable t) {
             t.printStackTrace();
         }
     };
@@ -61,7 +59,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mEmailView = findViewById(R.id.email);
         mPasswordView = findViewById(R.id.password);
 
-        tool = findViewById(R.id.my_toolbar);
+        Toolbar tool = findViewById(R.id.my_toolbar);
         setSupportActionBar(tool);
         ab = getSupportActionBar();
 
@@ -145,10 +143,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private boolean isPasswordValid(String password) {
-        //One uppercase, one lowercase and one number
-        //Check with password RegEx pattern
-        return password.length() > 6;
-        //   Matcher matcher = VALID_PASSWORD_REGEX.matcher(password);
-        // return matcher.find();
+        Matcher matcher = VALID_PASSWORD_REGEX.matcher(password);
+        return matcher.find();
     }
 }

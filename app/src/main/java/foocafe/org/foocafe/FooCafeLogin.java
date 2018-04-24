@@ -23,9 +23,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class FooCafeLogin extends AppCompatActivity {
-
 
     private final String clientId = "285172c95c08767d1c4e4a6ace84a8daec545837aa13605ff159e3b387f40781";
     private final String clientSecret = "17003db694f8dff5c54ba9ae091e2afd7a03616c3ae6ba1c6fc1b4a9801ab349";
@@ -86,44 +84,33 @@ public class FooCafeLogin extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                     startActivity(i);
                     finish();
-                } else if (url.contains("access_denied")) {
+                } else if (url != null && url.contains("access_denied")) {
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     finish();
-                    // w.loadUrl("http://www.foocafe.org");
                 }
             }
         });
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     0);
         }
-
     }
 
     private class AsyncCall extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             Call<AccessToken> token = foocafeAPI.getAccessToken(authCode, "authorization_code", clientId, clientSecret, redirectUri);
 
             try {
                 access = token.execute().body();
-                Log.i(TAG + "access", access.access_token);
-                Log.i(TAG + "access", access.expires_in);
-                Log.i(TAG + "access", Integer.toString(access.user_id));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
-        }
-
-        protected void onPostExecute(Void res) {
-
         }
     }
 }

@@ -49,7 +49,7 @@ public class TinyDB {
     private String DEFAULT_APP_IMAGEDATA_DIRECTORY;
     private String lastImagePath = "";
 
-    public TinyDB(Context appContext) {
+    TinyDB(Context appContext) {
         preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
     }
 
@@ -283,7 +283,7 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return String value at 'key' or "" (empty String) if key not found
      */
-    public String getString(String key) {
+    private String getString(String key) {
         return preferences.getString(key, "");
     }
 
@@ -293,7 +293,7 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return ArrayList of String
      */
-    public ArrayList<String> getListString(String key) {
+    private ArrayList<String> getListString(String key) {
         return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "â€šâ€—â€š")));
     }
 
@@ -330,7 +330,7 @@ public class TinyDB {
     }
 
 
-    public ArrayList<Event> getListObject(String key, Class<?> mClass) {
+    ArrayList<Event> getListObject(String key, Class<?> mClass) {
         Gson gson = new Gson();
 
         ArrayList<String> objStrings = getListString(key);
@@ -430,7 +430,7 @@ public class TinyDB {
      * @param key   SharedPreferences key
      * @param value String value to be added
      */
-    public void putString(String key, String value) {
+    private void putString(String key, String value) {
         checkForNullKey(key);
         checkForNullValue(value);
         preferences.edit().putString(key, value).apply();
@@ -442,7 +442,7 @@ public class TinyDB {
      * @param key        SharedPreferences key
      * @param stringList ArrayList of String to be added
      */
-    public void putListString(String key, ArrayList<String> stringList) {
+    private void putListString(String key, ArrayList<String> stringList) {
         checkForNullKey(key);
         String[] myStringList = stringList.toArray(new String[stringList.size()]);
         preferences.edit().putString(key, TextUtils.join("â€šâ€—â€š", myStringList)).apply();
@@ -492,7 +492,7 @@ public class TinyDB {
         putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Event> objArray) {
+    void putListObject(String key, ArrayList<Event> objArray) {
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<String>();
@@ -565,7 +565,7 @@ public class TinyDB {
      *
      * @return true if writable, false otherwise
      */
-    public static boolean isExternalStorageWritable() {
+    private static boolean isExternalStorageWritable() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
@@ -574,7 +574,7 @@ public class TinyDB {
      *
      * @return true if readable, false otherwise
      */
-    public static boolean isExternalStorageReadable() {
+    private static boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
 
         return Environment.MEDIA_MOUNTED.equals(state) ||
@@ -585,7 +585,7 @@ public class TinyDB {
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      * the pref key
      */
-    public void checkForNullKey(String key) {
+    private void checkForNullKey(String key) {
         if (key == null) {
             throw new NullPointerException();
         }
@@ -595,7 +595,7 @@ public class TinyDB {
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      * the pref key
      */
-    public void checkForNullValue(String value) {
+    private void checkForNullValue(String value) {
         if (value == null) {
             throw new NullPointerException();
         }

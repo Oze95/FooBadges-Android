@@ -15,8 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://foocafe.org";
-    private static Context mContext;
+    static final String API_BASE_URL = "http://foocafe.org";
     private static AccessToken mToken;
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -25,22 +24,7 @@ public class ServiceGenerator {
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create());
 
-    public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null);
-    }
-
-  /*  public static <S> S createService(
-            Class<S> serviceClass, String clientId, String clientSecret) {
-        if (!TextUtils.isEmpty(clientId)
-                && !TextUtils.isEmpty(clientSecret)) {
-            String authToken = Credentials.basic(clientId, clientSecret);
-            return createService(serviceClass, authToken);
-        }
-
-        return createService(serviceClass, null, null);
-    }*/
-
-    public static <S> S createService(
+    private static <S> S createService(
             Class<S> serviceClass, final String authToken) {
         Retrofit retrofit = null;
         if (!TextUtils.isEmpty(authToken)) {
@@ -55,7 +39,7 @@ public class ServiceGenerator {
             }
         }
 
-        return retrofit.create(serviceClass);
+        return retrofit != null ? retrofit.create(serviceClass) : null;
     }
 
     public static <S> S createService(Class<S> serviceClass, final String accessToken, Context c) {
@@ -65,7 +49,6 @@ public class ServiceGenerator {
                 .addConverterFactory(GsonConverterFactory.create());
 
         if (accessToken != null) {
-            mContext = c;
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {

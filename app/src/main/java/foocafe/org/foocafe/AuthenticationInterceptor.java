@@ -12,7 +12,7 @@ public class AuthenticationInterceptor implements Interceptor {
 
     private String authToken;
 
-    public AuthenticationInterceptor(String token) {
+    AuthenticationInterceptor(String token) {
         this.authToken = token;
     }
 

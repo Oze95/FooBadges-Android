@@ -217,21 +217,12 @@ public class EventListActivity extends AppCompatActivity {
         chaptersSpinner.setSelection(myAdapter.getPosition(chapter));
         switch (chapter) {
             case "malmoe":
-                cache = "Malmö";
-                foocafeAPI.loadEvents("malmoe").enqueue(eventsCallback);
-                session.saveChapter("malmoe");
                 chaptersSpinner.setSelection(0);
                 break;
             case "stockholm":
-                cache = "Stockholm";
-                foocafeAPI.loadEvents("stockholm").enqueue(eventsCallback);
-                session.saveChapter("stockholm");
                 chaptersSpinner.setSelection(1);
                 break;
             case "copenhagen":
-                cache = "Copenhagen";
-                foocafeAPI.loadEvents("copenhagen").enqueue(eventsCallback);
-                session.saveChapter("copenhagen");
                 chaptersSpinner.setSelection(2);
                 break;
         }
@@ -263,36 +254,29 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         if (session.isLoggedIn()) {
-            // Inflate the menu; this adds items to the action bar if it is present.
             getMenuInflater().inflate(R.menu.settings, menu);
             return true;
         } else {
             return false;
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-
                 Handler handlerClose = new Handler();
                 handlerClose.postDelayed(new Runnable() {
                     public void run() {
                         session.logoutUser();
-                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                         startActivity(i);
                         finish();
                         overridePendingTransition(0, 0);
                     }
                 }, 100);
-
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }

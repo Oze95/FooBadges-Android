@@ -5,19 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 public class Session {
-    static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
-    static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
-    static final String PREF_KEY_TWITTER_LOGIN = "isTwitterLoggedIn";
-    static final String UID = "";
-    static final String LAST_CHAPTER = "malmoe";
+    private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
+    private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
+    private static final String PREF_KEY_TWITTER_LOGIN = "isTwitterLoggedIn";
+    private static final String UID = "";
+    private static final String LAST_CHAPTER = "malmoe";
 
-    Context context;
+    private Context context;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor e;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor e;
 
-    // Constructor
-    public Session(Context context) {
+    Session(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("Pref", Context.MODE_PRIVATE);
         e = sharedPreferences.edit();
@@ -38,7 +37,7 @@ public class Session {
         return sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
     }
 
-    public boolean checkLogin() {
+    boolean checkLogin() {
         // Check login status
         if (this.isTwitterLoggedInAlready()) {
             // user is not logged in redirect him to Login Activity
@@ -59,52 +58,39 @@ public class Session {
 
     ;
 
-    public void logoutUser() {
+    void logoutUser() {
         // Clearing all data from Shared Preferences
         e.clear();
         e.commit();
-
-        // After logout redirect user to Loing Activity
-        //Intent i = new Intent(context, LoginActivity.class);
-        // Closing all the Activities
-        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        //i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
-        // Staring Login Activity
-        // context.startActivity(i);
     }
 
-    public void saveChapter(String chapter) {
-        //e.remove(LAST_CHAPTER);
+    void saveChapter(String chapter) {
         e.putString(LAST_CHAPTER, chapter);
         e.commit();
     }
 
-    public String checkChapter() {
+    String checkChapter() {
         return sharedPreferences.getString(LAST_CHAPTER, "malmoe");
     }
 
 
-    public void createLogin(String accesstoken, int user_id) {
+    void createLogin(String accesstoken, int user_id) {
 
         e.putBoolean("isLoggedIn", true);
         e.putString("accessToken", accesstoken);
         e.putInt("user_id", user_id);
         e.commit();
-
     }
 
-    public String getAccessToken() {
+    String getAccessToken() {
         return sharedPreferences.getString("accessToken", null);
     }
 
-    public int getUID() {
+    int getUID() {
         return sharedPreferences.getInt("user_id", 0);
     }
 
-    public boolean isLoggedIn() {
+    boolean isLoggedIn() {
         return sharedPreferences.getBoolean("isLoggedIn", false);
     }
 }

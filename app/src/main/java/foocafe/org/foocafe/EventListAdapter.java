@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,16 +41,15 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
         db = new TinyDB(eventListActivity);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.eventcard, parent, false);
-
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         final String toSendDesc = events.get(position).description;
         final String title = events.get(position).title;
@@ -70,13 +70,12 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
 
         holder.title.setText(events.get(position).title);
         holder.subtitle.setText(events.get(position).subtitle);
-        holder.dateTime.setText(events.get(position).time + " " + formattedDate);
+        holder.dateTime.setText(String.format("%s %s", events.get(position).time, formattedDate));
         Glide.with(eventListActivity).load("http://www.foocafe.org" + events.get(position).image).into(holder.imageView);
 
         if (events.get(position).checkmark) {
             holder.imageView2.setImageResource(R.mipmap.checkmark);
             check = true;
-
         }
         if (eventListActivity instanceof EventListActivity) {
             holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +90,6 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
                     i.putExtra("url", url);
                     view.getContext().startActivity(i);
                     ((Activity) view.getContext()).finish();
-
-
                 }
             });
         } else if (eventListActivity instanceof CheckInActivity) {
@@ -106,7 +103,7 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
                     if (!events.get(pos).checkmark && !check) {
                         check = true;                   // will act like a semafor and will also enable only one checkin
                         eventID = events.get(pos).event;
-                        //ask user if they want to checkin
+
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
                         alertDialogBuilder.setMessage("Do you want to check in to this event");
                         alertDialogBuilder.setPositiveButton("yes",
@@ -123,7 +120,6 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
                                         }
                                     }
                                 });
-
                         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
@@ -135,10 +131,7 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
                         alertDialog.setCancelable(false);
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.show();
-
                     } else if (events.get(pos).checkmark) {
-
-                        // ask if uncheck
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
                         alertDialogBuilder.setMessage("Do you want to undo the check in for this event");
                         alertDialogBuilder.setPositiveButton("yes",
