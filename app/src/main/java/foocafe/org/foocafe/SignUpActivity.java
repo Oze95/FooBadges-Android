@@ -19,7 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
         final String eventUrl = getIntent().getStringExtra("url");
         Log.i("WEBB", eventUrl);
 
-        web = (WebView) findViewById(R.id.webView);
+        web = findViewById(R.id.webView);
         web.getSettings().setJavaScriptEnabled(true);
         web.loadUrl(eventUrl + "/registrations/new");
         web.setWebViewClient(new WebViewClient() {

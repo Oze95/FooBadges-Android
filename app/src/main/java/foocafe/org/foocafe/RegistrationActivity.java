@@ -57,10 +57,10 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mEmailView = findViewById(R.id.email);
+        mPasswordView = findViewById(R.id.password);
 
-        tool = (Toolbar) findViewById(R.id.my_toolbar);
+        tool = findViewById(R.id.my_toolbar);
         setSupportActionBar(tool);
         ab = getSupportActionBar();
 
@@ -81,7 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        Button button = (Button) findViewById(R.id.button);
+        Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

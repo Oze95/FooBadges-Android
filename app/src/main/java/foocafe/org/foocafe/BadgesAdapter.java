@@ -45,10 +45,10 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
 
                 dialog.setContentView(R.layout.badge_dialog);
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                TextView badgeName = (TextView) dialog.findViewById(R.id.badgeNameText);
-                TextView desc = (TextView) dialog.findViewById(R.id.descriptionText);
-                TextView criteria = (TextView) dialog.findViewById(R.id.criteriaText);
-                ImageView image = (ImageView) dialog.findViewById(R.id.imageView);
+                TextView badgeName = dialog.findViewById(R.id.badgeNameText);
+                TextView desc = dialog.findViewById(R.id.descriptionText);
+                TextView criteria = dialog.findViewById(R.id.criteriaText);
+                ImageView image = dialog.findViewById(R.id.imageView);
 
                 badgeName.setText(badges.get(position).name);
                 desc.setText(badges.get(position).description);
@@ -73,8 +73,8 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
         ViewHolder(View itemView) {
             super(itemView);
 
-            imageView = (ImageView) itemView.findViewById(R.id.image);
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
+            imageView = itemView.findViewById(R.id.image);
+            cardView = itemView.findViewById(R.id.card_view);
         }
     }
 }

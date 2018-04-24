@@ -77,7 +77,7 @@ public class EventDescriptionActivity extends AppCompatActivity {
         date = bundle.getString("date");
         time = bundle.getString("time");
 
-        tool = (Toolbar) findViewById(R.id.my_toolbar);
+        tool = findViewById(R.id.my_toolbar);
         setSupportActionBar(tool);
         ab = getSupportActionBar();
 
@@ -88,9 +88,9 @@ public class EventDescriptionActivity extends AppCompatActivity {
         cache = inte.getStringExtra("list");
         session = new Session(getApplicationContext());
 
-        w = (WebView) findViewById(R.id.WebView);
-        button = (Button) findViewById(R.id.button);
-        t2 = (TextView) findViewById(R.id.textView5);
+        w = findViewById(R.id.WebView);
+        button = findViewById(R.id.button);
+        t2 = findViewById(R.id.textView5);
         t2.setText(subtitle + "\n" + title + "\n" + time + " " + date);
 
         w.getSettings().setJavaScriptEnabled(true);
@@ -98,7 +98,7 @@ public class EventDescriptionActivity extends AppCompatActivity {
         result = result.replace("\r", "<br>");
         w.loadDataWithBaseURL("http://www.foocafe.org", result, "text/html", "UTF-8", "about:blank");
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -191,7 +191,6 @@ public class EventDescriptionActivity extends AppCompatActivity {
             }
         });
 
-
         switch (cacheLocation) {
             case "Malmö":
                 location = "malmoe";
@@ -210,8 +209,6 @@ public class EventDescriptionActivity extends AppCompatActivity {
                 .build();
 
         foocafeAPI = retrofit.create(FooCafeAPI.class);
-
-
     }
 
     @Override
@@ -219,7 +216,6 @@ public class EventDescriptionActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), EventListActivity.class);
         startActivity(i);
         finish();
-
     }
 
     @Override

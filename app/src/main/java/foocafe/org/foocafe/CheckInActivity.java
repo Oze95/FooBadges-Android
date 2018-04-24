@@ -48,11 +48,8 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 
 import static foocafe.org.foocafe.EventListActivity.PREFERENCES;
 
@@ -70,7 +67,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
     private String location;
     private String beaconID = null;
     private ArrayList<Event> list = new ArrayList<>();
-    private String date;
     private boolean checkInSuccessful;
     private Toolbar tool;
     private boolean exit;
@@ -94,9 +90,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         session = new Session(getApplicationContext());
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        date = dateFormat.format(new Date());
         preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
         cache = preferences.getString("chapter", "Malmö");
 
@@ -120,22 +113,20 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         };
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
-        tool = (Toolbar) findViewById(R.id.my_toolbar);
+        tool = findViewById(R.id.my_toolbar);
         setSupportActionBar(tool);
         ab = getSupportActionBar();
 
-        //Custom ACtionBar and some ActionBar actions
-        t = (TextView) findViewById(R.id.textView);
-        t.setText("Events today");
+        t = findViewById(R.id.textView);
         db = new TinyDB(this);
         list = db.getListObject(session.getUID() + cache, Event.class);
 
         gridLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         if (list.size() == 0) {
-            t.setText("No events today");
+            t.setText(getString(R.string.no_events_today));
             recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         } else if (list.size() == 1) {
 
@@ -156,7 +147,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         beacon = false;
         target = new Location("FOO");
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -259,9 +250,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             AsyncCall task = new AsyncCall();           //does the Post to server
             try {
                 task.execute().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
             beacon = false;
@@ -315,7 +304,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         super.onResume();
         try {
             beaconManager.startRangingBeaconsInRegion(reg);
-            Log.i(TAG, "BEAOCN SERVICE");
+            Log.i(TAG, "BEACON SERVICE");
         } catch (RemoteException e) {
         }
     }
@@ -326,7 +315,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
         overridePendingTransition(0, 0);
         try {
             beaconManager.stopRangingBeaconsInRegion(reg);
-        } catch (RemoteException e) {
+        } catch (RemoteException | NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -337,7 +326,6 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
             Log.i(TAG, "startloc");
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
-
     }
 
     protected void stopLocationUpdates() {
@@ -385,7 +373,7 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
 
         try {
             beaconManager.startRangingBeaconsInRegion(reg);
-            Log.i(TAG, "BEAOCN SERVICE");
+            Log.i(TAG, "BEACON SERVICE");
         } catch (RemoteException e) {
         }
     }
@@ -429,15 +417,10 @@ public class CheckInActivity extends AppCompatActivity implements BeaconConsumer
 
             Call<CheckInCredential> sendPost = foocafeAPI.checkIn(checkInCredential, location, adapter.getEventID());
             try {
-                if (sendPost.execute().isSuccessful()) {
-                    checkInSuccessful = true;
-                } else {
-                    checkInSuccessful = false;
-                }
+                checkInSuccessful = sendPost.execute().isSuccessful();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 

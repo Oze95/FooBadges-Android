@@ -1,14 +1,12 @@
 package foocafe.org.foocafe;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,8 +16,6 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -46,7 +42,7 @@ public class FooCafeLogin extends AppCompatActivity {
 
         setContentView(R.layout.activity_foocafe_login);
         session = new Session(getApplicationContext());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
         if (session.checkLogin()) {
@@ -60,7 +56,7 @@ public class FooCafeLogin extends AppCompatActivity {
 
         foocafeAPI = retrofit.create(FooCafeAPI.class);
 
-        WebView w = (WebView) findViewById(R.id.w2);
+        WebView w = findViewById(R.id.w2);
         w.getSettings().setJavaScriptEnabled(true);
         //  w.loadUrl("http://www.foocafe.org");
         w.loadUrl(ServiceGenerator.API_BASE_URL + "/oauth/authorize" + "?client_id=" + clientId + "&response_type=code" + "&redirect_uri=" + redirectUri);

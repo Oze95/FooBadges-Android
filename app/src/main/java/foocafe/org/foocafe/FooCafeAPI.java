@@ -46,4 +46,3 @@ interface FooCafeAPI {
             @Field("client_secret") String client_secret,
             @Field("redirect_uri") String redirect_uri);
 }
-

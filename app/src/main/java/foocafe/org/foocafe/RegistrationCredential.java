@@ -23,5 +23,4 @@ public class RegistrationCredential {
     public String getPassword() {
         return password;
     }
-
 }

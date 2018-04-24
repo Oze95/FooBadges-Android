@@ -186,12 +186,12 @@ class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>
         ViewHolder(View itemView) {
             super(itemView);
 
-            title = (TextView) itemView.findViewById(R.id.title);
-            imageView = (ImageView) itemView.findViewById(R.id.image);
-            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
-            dateTime = (TextView) itemView.findViewById(R.id.dateTime);
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
-            imageView2 = (ImageView) itemView.findViewById(R.id.image2);
+            title = itemView.findViewById(R.id.title);
+            imageView = itemView.findViewById(R.id.image);
+            subtitle = itemView.findViewById(R.id.subtitle);
+            dateTime = itemView.findViewById(R.id.dateTime);
+            cardView = itemView.findViewById(R.id.card_view);
+            imageView2 = itemView.findViewById(R.id.image2);
         }
     }
 }

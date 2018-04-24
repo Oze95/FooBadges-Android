@@ -68,14 +68,12 @@ public class EventListActivity extends AppCompatActivity {
                     }
                 }
 
-                for (Event e : eventList.events) {
-                    list.add(e);
-                }
+                list.addAll(eventList.events);
 
                 if (list.size() == 0) {
-                    textView.setText("No events in near future");
+                    textView.setText(getString(R.string.no_events_in_near_future));
                 } else {
-                    textView.setText("Events");
+                    textView.setText(getString(R.string.events));
                 }
 
                 if (list.size() <= 4) {
@@ -113,18 +111,18 @@ public class EventListActivity extends AppCompatActivity {
         getPermissions();
 
         DB = new TinyDB(this);
-        Toolbar tool = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar tool = findViewById(R.id.my_toolbar);
         session = new Session(getApplicationContext());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         date = dateFormat.format(new Date());
-        textView = (TextView) findViewById(textView3);
+        textView = findViewById(textView3);
 
         Log.i("SuperDate", date);
 
         preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -169,7 +167,7 @@ public class EventListActivity extends AppCompatActivity {
                     }
                 });
 
-        chaptersSpinner = (Spinner) findViewById(R.id.chaptersSpinner);
+        chaptersSpinner = findViewById(R.id.chaptersSpinner);
 
         chaptersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -241,7 +239,7 @@ public class EventListActivity extends AppCompatActivity {
         setSupportActionBar(tool);
         ab = getSupportActionBar();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
     }

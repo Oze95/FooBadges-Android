@@ -84,16 +84,16 @@ public class BadgesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_badges);
 
         session = new Session(getApplicationContext());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        aSwitch = (Switch) findViewById(R.id.switch1);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        recyclerView = findViewById(R.id.recycler_view);
+        aSwitch = findViewById(R.id.switch1);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         recyclerView.setLayoutManager(gridLayoutManager);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(2).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {

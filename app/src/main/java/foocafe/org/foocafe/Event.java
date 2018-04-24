@@ -24,12 +24,11 @@ class Event implements Serializable {
     String description;
 
     @SerializedName("checkmark")
-    Boolean checkmark =false;
+    Boolean checkmark = false;
 
     @SerializedName("id")
     String event;
 
     @SerializedName("url")
     String url;
-
 }

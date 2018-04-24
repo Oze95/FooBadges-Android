@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * Created by foocafe on 2017-04-26.
- */
-
 public class AccessToken implements Serializable {
 
     @SerializedName("access_token")
@@ -24,6 +20,4 @@ public class AccessToken implements Serializable {
 
     @SerializedName("refresh_token")
     String refresh_token;
-
-
 }

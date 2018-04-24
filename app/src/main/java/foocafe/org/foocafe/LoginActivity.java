@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         session = new Session(getApplicationContext());
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.getMenu().getItem(getIntent().getIntExtra("setCheckValue", 1)).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
 
-        Button signInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button signInButton = findViewById(R.id.email_sign_in_button);
         signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        tool = (Toolbar) findViewById(R.id.my_toolbar);
+        tool = findViewById(R.id.my_toolbar);
         setSupportActionBar(tool);
         ab = getSupportActionBar();
 

@@ -1,5 +1,7 @@
 package foocafe.org.foocafe;
 
+import android.support.annotation.NonNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -15,7 +17,7 @@ public class AuthenticationInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request original = chain.request();
 
         Request.Builder builder = original.newBuilder()
